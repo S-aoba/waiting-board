@@ -1,18 +1,15 @@
-import { useState } from "react";
-import { Inside } from "./index";
-
 const Waiting = (props) => {
   const display = () => {
-    return props.customer.map((item, index) => (
+    return props.waitingList.map((item, index) => (
       <tr key={index}>
-        <td>{item.name}</td>
-        <td>{item.number}</td>
+        <td>{item.name} 様</td>
+        <td>{item.number}名</td>
         <td>{item.seat}</td>
         <td>
           <button data-index={String(index)} onClick={cancel} className="mr-5 btn btn-primary">
             取り消し
           </button>
-          <button data-index={String(index)} className="btn btn-primary">
+          <button data-index={String(index)} onClick={guidance} className="btn btn-primary">
             ご案内
           </button>
         </td>
@@ -22,9 +19,18 @@ const Waiting = (props) => {
 
   const cancel = (e) => {
     let index = e.currentTarget.dataset["index"];
-    const newCustomerList = [...props.customer];
-    newCustomerList.splice(index, 1);
-    props.setInfo(newCustomerList);
+    const newWaitingList = [...props.waitingList];
+    newWaitingList.splice(index, 1);
+    props.setWaitingList(newWaitingList);
+  };
+
+  const guidance = (e) => {
+    let index = e.currentTarget.dataset["index"];
+    //WaitingListのコピーリスト
+    const newWaitingList = [...props.waitingList];
+    const guideInfo = newWaitingList.splice(index, 1);
+    props.setWaitingList(newWaitingList);
+    props.setInsideList((insideList) => [...insideList, guideInfo]);
   };
 
   return (
@@ -52,7 +58,6 @@ const Waiting = (props) => {
           </div>
         </div>
       </div>
-      <Inside />
     </div>
   );
 };

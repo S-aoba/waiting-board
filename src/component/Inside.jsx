@@ -1,6 +1,32 @@
-import React from "react";
+// import React from "react";
 
-const Inside = () => {
+const Inside = (props) => {
+  const display = () => {
+    return props.insideList.map((customerList, id) =>
+      customerList.map((customer) => (
+        <tr key={id}>
+          <td>{customer.name} 様</td>
+          <td>{customer.number}名</td>
+          <td>{customer.seat}</td>
+          <td>
+            <button data-index={String(id)} onClick={bill} className="btn btn-primary ml-3">
+              お会計(退店)
+            </button>
+          </td>
+        </tr>
+      ))
+    );
+  };
+
+  const bill = (e) => {
+    const index = e.currentTarget.dataset["index"];
+    console.log(props.insideList);
+    console.log(index);
+
+    const newInsideList = [...props.insideList];
+    newInsideList.splice(index, 1);
+    props.setInsideList(newInsideList);
+  };
   return (
     <div className="border-b-4 border-gray-300 pb-5">
       <div className="flex justify-center">
@@ -16,18 +42,10 @@ const Inside = () => {
                   <th>お名前</th>
                   <th>人数</th>
                   <th>お席</th>
+                  <th className="bg-white"></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>齋藤</td>
-                  <td>2名</td>
-                  <td>テーブル</td>
-                  <td>
-                    <button className="btn btn-primary ml-3">お会計(退店)</button>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody>{display()}</tbody>
             </table>
           </div>
         </div>

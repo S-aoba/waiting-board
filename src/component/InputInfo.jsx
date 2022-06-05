@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Waiting } from "./index";
+import { Waiting, Inside } from "./index";
 
 const InputInfo = () => {
-  const [customerInfo, setCustomerInfo] = useState([]);
+  //ユーザーが入力している間の値を入れるデータ
   const [inputInfo, setInputInfo] = useState({ name: "", number: "", seat: "テーブル" });
+
+  // //WaitingComponentが持つデータリスト
+  const [waitingList, setWaitingList] = useState([]);
+
+  // //InsideComponentが持つデータリスト
+  const [insideList, setInsideList] = useState([]);
 
   const handleChangeName = (e) => {
     let customerName = e.target.value;
@@ -20,9 +26,9 @@ const InputInfo = () => {
     setInputInfo((inputInfo) => ({ ...inputInfo, seat: customerSeat }));
   };
 
-  const setWaitingList = (e) => {
-    e.preventDefault();
-    setCustomerInfo((customerInfo) => [...customerInfo, inputInfo]);
+  //順番待ちのデータリストに入力された値を挿入
+  const handOverWaitingList = () => {
+    setWaitingList((waitingList) => [...waitingList, inputInfo]);
   };
 
   return (
@@ -38,13 +44,14 @@ const InputInfo = () => {
               <option>カウンター</option>
               <option>どちらでも可</option>
             </select>
-            <button onClick={setWaitingList} className="btn btn-primary">
+            <button onClick={handOverWaitingList} className="btn btn-primary">
               順番待ちをする
             </button>
           </div>
         </div>
       </div>
-      <Waiting customer={customerInfo} setInfo={setCustomerInfo} />
+      <Waiting waitingList={waitingList} setWaitingList={setWaitingList} insideList={insideList} setInsideList={setInsideList} />
+      <Inside insideList={insideList} setInsideList={setInsideList} />
     </div>
   );
 };
