@@ -29,6 +29,12 @@ const InputInfo = () => {
   //順番待ちのデータリストに入力された値を挿入
   const handOverWaitingList = () => {
     setWaitingList((waitingList) => [...waitingList, inputInfo]);
+    clearInput();
+  };
+
+  const clearInput = () => {
+    setInputInfo((inputInfo) => ({ ...inputInfo, name: "" }));
+    setInputInfo((inputInfo) => ({ ...inputInfo, number: "" }));
   };
 
   return (
@@ -36,8 +42,8 @@ const InputInfo = () => {
       <div className="flex justify-center border-b-4 border-gray-300 pb-5">
         <div className="w-7/12">
           <div className="py-8 flex justify-around">
-            <input onChange={handleChangeName} className="mr-3 pl-2 border-4 rounded-md" type="text" placeholder="お名前" />
-            <input onChange={handleChangeNumber} className="mr-3 pl-2 border-4 rounded-md" type="number" placeholder="人数" />
+            <input value={inputInfo.name} onChange={handleChangeName} className="mr-3 pl-2 border-4 rounded-md" type="text" placeholder="お名前" />
+            <input value={inputInfo.number} onChange={handleChangeNumber} className="mr-3 pl-2 border-4 rounded-md" type="number" placeholder="人数" />
             <select onChange={handleChangeSeat} className="mr-3 select select-bordered  max-w-xs">
               <option disabled>お席</option>
               <option>テーブル</option>
